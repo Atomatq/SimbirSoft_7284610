@@ -1,15 +1,9 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.config.BaseConfig;
-import org.example.config.ConfigManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 
@@ -19,23 +13,25 @@ import static org.junit.jupiter.api.TestInstance.*;
 @TestInstance(Lifecycle.PER_CLASS)
 public class BaseTest {
     protected WebDriver webDriver;
-    protected BaseConfig config = ConfigManager.getConfig();
+    protected Capabilities capabilities;
+    protected SuiteConfiguration config;
+    protected URL grid;
 
     @BeforeAll
-    public void loadConfig() {
-
+    public void loadConfig() throws IOException {
+        config = new SuiteConfiguration();
+        capabilities = config.getCapabilities();
+        grid = new URL(config.getValue("grid"));
     }
 
 
     @BeforeEach
-    public void init() throws MalformedURLException {
-//        webDriver = WebDriverManager.chromedriver().driverVersion("109.0.5414.74").create();
-        ChromeOptions options = new ChromeOptions();
-        webDriver = new RemoteWebDriver(new URL("http://localhost:4444/"), options);
+    public void init() {
+        webDriver = new RemoteWebDriver(grid, capabilities);
         webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         webDriver.manage().window().maximize();
-        webDriver.get(config.baseURL());
+        webDriver.get(config.getValue("base.url"));
     }
 
     @AfterEach

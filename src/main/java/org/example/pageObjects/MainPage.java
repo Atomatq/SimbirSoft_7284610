@@ -1,5 +1,6 @@
 package org.example.pageObjects;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -14,6 +15,7 @@ public class MainPage {
     By managerLogin = By.xpath("//button[@ng-click='manager()']");
 
 
+    @Step("Перейти на станицу регистрации 'Customer Login'")
     public void goToCustomerLogin() {
         driver.findElement(customerLogin).click();
     }

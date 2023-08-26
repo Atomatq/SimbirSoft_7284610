@@ -9,19 +9,23 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
-        <webdrivermanager.version>5.4.0</webdrivermanager.version>
+
         <selenium-java.version>4.10.0</selenium-java.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <webdrivermanager.version>5.4.0</webdrivermanager.version>
+        <junit-jupiter-engine.version>5.7.0</junit-jupiter-engine.version>
         <allure-junit5.version>2.14.0</allure-junit5.version>
-        <aspectj.version>1.9.19</aspectj.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <allure-maven.report.version>2.14.0</allure-maven.report.version>
-        <junit-jupiter-api.version>5.9.3</junit-jupiter-api.version>
         <owner.version>1.0.12</owner.version>
+        <aspectj.version>1.9.19</aspectj.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
     </properties>
+
+
 
     <dependencies>
         <dependency>
@@ -29,48 +33,48 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure-junit5.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter-api.version}</version>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter-engine.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
             <version>${owner.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.10.0</version>
         </dependency>
-
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
@@ -96,40 +100,49 @@
     </build>
 
     <profiles>
+        <!--Browsers-->
         <profile>
             <id>firefox</id>
             <properties>
                 <capabilities>/firefox.capabilities</capabilities>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
-
         <profile>
             <id>chrome</id>
             <properties>
                 <capabilities>/chrome.capabilities</capabilities>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
-
         <profile>
             <id>ie</id>
             <properties>
                 <capabilities>/ie.capabilities</capabilities>
             </properties>
         </profile>
-
         <profile>
-            <id>safari</id>
+            <id>edge</id>
             <properties>
-                <capabilities>/safari.capabilities</capabilities>
+                <capabilities>/edge.capabilities</capabilities>
             </properties>
         </profile>
+
+        <!--GRIDS settings-->
         <profile>
-            <id>opera</id>
+            <id>grid_local</id>
             <properties>
-                <capabilities>/opera.capabilities</capabilities>
+                <grid.url>http://localhost:4444/</grid.url>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>grid</id>
+            <properties>
+                <grid.url></grid.url>
             </properties>
         </profile>
     </profiles>
