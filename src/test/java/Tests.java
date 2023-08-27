@@ -7,7 +7,6 @@ import org.example.pageObjects.TransactionsPage;
 import org.junit.jupiter.api.Test;
 
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Tests extends BaseTest {
     protected CustomerPage customerPage;
     int amount = getFibonacci(getCurrentDay() + 1);
-    final String CSV_FILE = amount + ".csv";
-    List<String> csvHeaders = Arrays.asList("Дата-времяТранзакции", "Сумма", "ТипТранзакции");
+    final String CSV_FILE_NAME = amount + ".csv";
+    final String[] csvHeaders = {"Дата-времяТранзакции", "Сумма", "ТипТранзакции"};
     Map<String, String> accInfoCollection;
     List<Map<String, String>> transactionsTable;
 
@@ -47,7 +46,6 @@ public class Tests extends BaseTest {
                     convertDateTime(row.get(transaction_dateTime), MMM_dd_yyyy_hhMMSS_a, dd_MMM_yyyy_hhMMss));
         }
 
-        createCSV(CSV_FILE, csvHeaders, transactionsTable);
-        AllureReport.attachFile(CSV_FILE, "text/csv", ".csv");
+        AllureReport.attachCSV(CSV_FILE_NAME, transactionsTable, csvHeaders);
     }
 }
