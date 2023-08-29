@@ -1,12 +1,11 @@
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
 public class SuiteConfiguration {
-    protected Properties properties;
+    private Properties properties;
 
     public SuiteConfiguration() throws IOException {
         properties = new Properties();
@@ -24,8 +23,6 @@ public class SuiteConfiguration {
             String value = capsProps.getProperty(name);
             if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
                 capabilities.setCapability(name, Boolean.valueOf(value));
-            } else if (value.startsWith("file:")) {
-                capabilities.setCapability(name, new File(".", value.substring(5)).getCanonicalFile().getAbsolutePath());
             } else {
                 capabilities.setCapability(name, value);
             }

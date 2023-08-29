@@ -10,10 +10,7 @@ public class MainPage {
         this.driver = driver;
     }
 
-    By home = By.xpath("//button[@class='btn home']");
-    By customerLogin = By.xpath("//button[@ng-click='customer()']");
-    By managerLogin = By.xpath("//button[@ng-click='manager()']");
-
+    private By customerLogin = By.xpath("//button[@ng-click='customer()']");
 
     @Step("Перейти на станицу регистрации 'Customer Login'")
     public void goToCustomerLogin() {

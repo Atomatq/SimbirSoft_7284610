@@ -6,7 +6,6 @@ import org.example.pageObjects.MainPage;
 import org.example.pageObjects.TransactionsPage;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Tests extends BaseTest {
     protected CustomerPage customerPage;
-    int amount = getFibonacci(getCurrentDay() + 1);
+    String amount = Integer.toString(getFibonacci(getCurrentDay() + 1));
     final String CSV_FILE_NAME = amount + ".csv";
     final String[] csvHeaders = {"Дата-времяТранзакции", "Сумма", "ТипТранзакции"};
     Map<String, String> accInfoCollection;
@@ -25,7 +24,7 @@ public class Tests extends BaseTest {
 
     @Test
     @Description("Тестовое задание №7284610")
-    public void test1() {
+    public void test1() throws InterruptedException {
         new MainPage(webDriver).goToCustomerLogin();
         new CustomerLoginPage(webDriver).selectName(config.getValue("user.login")).login();
         customerPage = new CustomerPage(webDriver);

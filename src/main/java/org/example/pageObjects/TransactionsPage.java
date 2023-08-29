@@ -14,30 +14,25 @@ import java.util.Map;
 public class TransactionsPage {
     private WebDriver driver;
     private WebDriverWait waitElement;
-    private List<Map<String, String>> tableCollection;
     public TransactionsPage(WebDriver driver) {
         this.driver = driver;
         waitElement = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
-    By backBtn = By.xpath("//button[@ng-click='back()']");
-    By resetBtn = By.xpath("//button[@ng-click='reset()']");
-    By tableHeads = By.xpath("//table/thead//a");
-    By tableRows = By.xpath("//table/tbody//td");
-
+    private By tableHeads = By.xpath("//table/thead//a");
+    private By tableRows = By.xpath("//table/tbody//td");
 
     /**
     * Map keys: Date-Time, Amount, Transaction Type
      */
-    public List<Map<String, String>> getTableCollection() {
-        waitElement.until(el -> driver.findElement(backBtn).isDisplayed());
+    public List<Map<String, String>> getTableCollection() throws InterruptedException {
+        Thread.sleep(1000);
         driver.navigate().refresh();
-        collectTable();
-        return tableCollection;
+        return collectTable();
     }
 
 
     private List<Map<String, String>> collectTable() {
-        tableCollection = new ArrayList<>();
+        List<Map<String, String>> tableCollection = new ArrayList<>();
         List<String> headsList = new ArrayList<>();
         List<String> cellsList = new ArrayList<>();
         Map<String, String> rowCollection = new HashMap<>();

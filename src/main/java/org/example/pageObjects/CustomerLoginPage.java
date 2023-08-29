@@ -10,8 +10,8 @@ public class CustomerLoginPage {
     public CustomerLoginPage(WebDriver driver) {
         this.driver = driver;
     }
-    By dropDownList = By.xpath("//select[@id='userSelect']");
-    By login = By.xpath("//button[@type='submit']");
+    private By dropDownList = By.xpath("//select[@id='userSelect']");
+    private By login = By.xpath("//button[@type='submit']");
 
 
     @Step("Выбрать пользователя {name}")
